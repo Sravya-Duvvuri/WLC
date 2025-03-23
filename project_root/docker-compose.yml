@@ -1,0 +1,29 @@
+services:
+  server1:
+    build: ./server
+    container_name: server1
+    networks:
+      - mynet
+  server2:
+    build: ./server
+    container_name: server2
+    networks:
+      - mynet
+  server3:
+    build: ./server
+    container_name: server3
+    networks:
+      - mynet
+  loadbalancer:
+    build: ./lb
+    container_name: loadbalancer
+    depends_on:
+      - server1
+      - server2
+      - server3
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    driver: bridge
