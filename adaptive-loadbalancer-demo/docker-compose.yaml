@@ -1,0 +1,36 @@
+version: '3'
+services:
+  server1:
+    build: ./server
+    environment:
+      - SERVER_ID=server1
+    networks:
+      - demo-net
+
+  server2:
+    build: ./server
+    environment:
+      - SERVER_ID=server2
+    networks:
+      - demo-net
+
+  server3:
+    build: ./server
+    environment:
+      - SERVER_ID=server3
+    networks:
+      - demo-net
+
+  loadbalancer:
+    build: ./loadbalancer
+    ports:
+      - "80:80"
+    depends_on:
+      - server1
+      - server2
+      - server3
+    networks:
+      - demo-net
+
+networks:
+  demo-net:
