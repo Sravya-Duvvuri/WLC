@@ -2,18 +2,36 @@ services:
   server1:
     build: ./server
     container_name: server1
+    ports:
+      - "5000:5000"   # Accessible as localhost:5000
+    environment:
+      - PROCESSING_DELAY_MIN=10
+      - PROCESSING_DELAY_MAX=15
     networks:
       - mynet
+
   server2:
     build: ./server
     container_name: server2
+    ports:
+      - "5001:5000"   # Accessible as localhost:5001
+    environment:
+      - PROCESSING_DELAY_MIN=12
+      - PROCESSING_DELAY_MAX=18
     networks:
       - mynet
+
   server3:
     build: ./server
     container_name: server3
+    ports:
+      - "5002:5000"   # Accessible as localhost:5002
+    environment:
+      - PROCESSING_DELAY_MIN=8
+      - PROCESSING_DELAY_MAX=14
     networks:
       - mynet
+
   loadbalancer:
     build: ./lb
     container_name: loadbalancer
@@ -21,6 +39,8 @@ services:
       - server1
       - server2
       - server3
+    ports:
+      - "8000:5000"   # Expose the load balancer externally on port 8000
     networks:
       - mynet
 
